@@ -1,14 +1,14 @@
-package Test;
+package test;
 
 import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static Data.DataGenerator.Registration.getRegisteredUser;
-import static Data.DataGenerator.Registration.getUser;
-import static Data.DataGenerator.getRandomLogin;
-import static Data.DataGenerator.getRandomPassword;
+import static data.DataGenerator.Registration.getRegisteredUser;
+import static data.DataGenerator.Registration.getUser;
+import static data.DataGenerator.getRandomLogin;
+import static data.DataGenerator.getRandomPassword;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -37,7 +37,7 @@ class TestAuth {
         $("[data-test-id= 'login'] input").setValue(notRegisteredUser.getLogin());
         $("[data-test-id= 'password'] input").setValue(notRegisteredUser.getPassword());
         $("button").click();
-        $("[data-test-id= 'error-notification' .notification__content")
+        $("[data-test-id= 'error-notification'] .notification__content")
                 .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"))
                 .shouldBe(Condition.visible);
 
@@ -49,10 +49,10 @@ class TestAuth {
     void shouldGetErrorIfBlockedUser() {
         var blockedUser = getRegisteredUser("blocked");
         $("[data-test-id= 'login'] input").setValue(blockedUser.getLogin());
-        $("data-test-id= 'password' input").setValue(blockedUser.getPassword());
+        $("[data-test-id= 'password'] input").setValue(blockedUser.getPassword());
         $("button").click();
         $("[data-test-id= 'error-notification'] .notification__content")
-                .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"))
+                .shouldHave(Condition.text("Ошибка! Пользователь заблокирован"))
                 .shouldBe(Condition.visible);
     }
 
@@ -61,8 +61,8 @@ class TestAuth {
     void shouldGetErrorIfWrongLogin() {
         var registeredUser = getRegisteredUser("active");
         var wrongLogin = getRandomLogin();
-        $("data-test-id= 'login'] input").setValue(wrongLogin);
-        $("data-test-id= 'password'] input").setValue(registeredUser.getPassword());
+        $("[data-test-id= 'login'] input").setValue(wrongLogin);
+        $("[data-test-id= 'password'] input").setValue(registeredUser.getPassword());
         $("button").click();
         $("[data-test-id= 'error-notification'] .notification__content")
                 .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"))
@@ -74,9 +74,9 @@ class TestAuth {
     void shouldGetErrorIfWrongPassword() {
         var registeredUser = getRegisteredUser("active");
         var wrongPassword = getRandomPassword();
-        $("data-test-id= 'login'] input").setValue(registeredUser.getLogin());
-        $("data-test-id= 'password'] input").setValue(wrongPassword);
-        $(".button").click();
+        $("[data-test-id= 'login'] input").setValue(registeredUser.getLogin());
+        $("[data-test-id= 'password'] input").setValue(wrongPassword);
+        $("button").click();
         $("[data-test-id= 'error-notification'] .notification__content")
                 .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"))
                 .shouldBe(Condition.visible);
